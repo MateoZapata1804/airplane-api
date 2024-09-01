@@ -1,12 +1,16 @@
 package co.com.airplane_api.models.http;
 
+import org.springframework.http.HttpStatus;
+
 public class RequestResponse {
 	
 	private Object data;
-	private Boolean status;
+	private HttpStatus status;
 	private String message;
 	
-	public RequestResponse(Object data, Boolean status, String message) {
+	public RequestResponse() {}
+	
+	public RequestResponse(Object data, HttpStatus status, String message) {
 		this.data = data;
 		this.status = status;
 		this.message = message;
@@ -18,10 +22,10 @@ public class RequestResponse {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	public Boolean getStatus() {
+	public HttpStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
 	public String getMessage() {

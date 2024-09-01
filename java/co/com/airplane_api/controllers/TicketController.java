@@ -1,6 +1,8 @@
 package co.com.airplane_api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,18 +25,25 @@ public class TicketController {
 	TicketService ticketSvc;
 	
 	@ExceptionHandler(AirplaneException.class)
-	public RequestResponse handleException(AirplaneException ex) {
-		return new RequestResponse(ex.toString(), false, ex.getMessage());
+	public ResponseEntity<RequestResponse> handleException(AirplaneException ex) {
+		
+		var response = new RequestResponse(ex.toString(), ex.getHttpStatus(), ex.getMessage());
+		
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
 	@GetMapping("/getTickets")
-	public RequestResponse getTickets() throws AirplaneException {
-		return ticketSvc.getTickets();
+	public ResponseEntity<RequestResponse> getTickets() throws AirplaneException {
+		var result = ticketSvc.getTickets();
+		
+		return ResponseEntity.status(result.getStatus()).body(result);
 	}
 	
 	@PostMapping("/addTicket")
-	public RequestResponse addTicket(@RequestBody TicketModel request) throws AirplaneException {
-		return ticketSvc.addTicket(request);
+	public ResponseEntity<RequestResponse> addTicket(@RequestBody TicketModel request) throws AirplaneException {
+		var result = ticketSvc.addTicket(request);
+		
+		return ResponseEntity.status(result.getStatus()).body(result);
 	}
 	
 }
